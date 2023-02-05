@@ -1,10 +1,12 @@
 Terraform Provider for PostgreSQL
 =================================
 
-This provider allows to manage with Terraform [Postgresql](https://www.postgresql.org/) objects like databases, extensions, roles, etc..
+This provider allows to manage with Terraform [Postgresql](https://www.postgresql.org/) objects like databases, 
+extensions, roles, etc..
 
 It's published on the [Terraform registry](https://registry.terraform.io/providers/cyrilgdn/postgresql/latest/docs).
-It replaces https://github.com/hashicorp/terraform-provider-postgresql since Hashicorp stopped hosting community providers in favor of the Terraform registry.
+It replaces https://github.com/hashicorp/terraform-provider-postgresql since Hashicorp stopped hosting community 
+providers in favor of the Terraform registry.
 
 - Documentation: https://registry.terraform.io/providers/cyrilgdn/postgresql/latest/docs
 
@@ -34,14 +36,18 @@ $ make build
 Using the provider
 ----------------------
 
-Usage examples can be found in the Terraform [provider documentation](https://www.terraform.io/docs/providers/postgresql/index.html)
+Usage examples can be found in the Terraform [provider documentation](
+https://www.terraform.io/docs/providers/postgresql/index.html)
 
 Developing the Provider
 ---------------------------
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.11+ is *required*). You'll also need to correctly setup a [GOPATH](http://golang.org/doc/code.html#GOPATH), as well as adding `$GOPATH/bin` to your `$PATH`.
+If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine 
+(version 1.11+ is *required*). You'll also need to correctly setup a [GOPATH](http://golang.org/doc/code.html#GOPATH),
+as well as adding `$GOPATH/bin` to your `$PATH`.
 
-To compile the provider, run `make build`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
+To compile the provider, run `make build`. This will build the provider and put the provider binary in the 
+`$GOPATH/bin` directory.
 
 ```sh
 $ make build
