@@ -108,7 +108,7 @@ func resourcePostgreSQLDatabase() *schema.Resource {
 
 func resourcePostgreSQLDatabaseCreate(db *DBConnection, d *schema.ResourceData) error {
 	if err := createDatabase(db, d); err != nil {
-		return err
+		return fmt.Errorf("resourcePostgreSQLDatabaseCreate(): %v", err)
 	}
 
 	d.SetId(d.Get(dbNameAttr).(string))
