@@ -293,7 +293,7 @@ func startTransaction(client *Client, database string) (*sql.Tx, error) {
 	}
 	db, err := client.Connect()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("startTransaction() could not connect: %w", err)
 	}
 
 	txn, err := db.Begin()
