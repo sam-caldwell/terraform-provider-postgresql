@@ -3,11 +3,10 @@ package postgresql
 import (
 	"database/sql"
 	"fmt"
-	"log"
-	"strings"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	"log"
+	"strings"
 
 	// Use Postgres as SQL driver
 	"github.com/lib/pq"
@@ -127,10 +126,10 @@ func resourcePostgreSQLGrantCreate(db *DBConnection, d *schema.ResourceData) err
 	if d.Get("schema").(string) == "" && !sliceContainsStr([]string{"database", "foreign_data_wrapper", "foreign_server"}, objectType) {
 		return fmt.Errorf("parameter 'schema' is mandatory for postgresql_grant resource")
 	}
-	if d.Get("objects").(*schema.Set).Len() > 0 && (objectType == "database" || objectType == "schema") {
+	if d.Get("objects").(*schema.Set).Len() > 0 && sliceContainsStr([]string{"database", "schema"}, objectType) {
 		return fmt.Errorf("cannot specify `objects` when `object_type` is `database` or `schema`")
 	}
-	if d.Get("objects").(*schema.Set).Len() != 1 && (objectType == "foreign_data_wrapper" || objectType == "foreign_server") {
+	if d.Get("objects").(*schema.Set).Len() != 1 && sliceContainsStr([]string{"foreign_data_wrapper", "foreign_server"}, objectType) {
 		return fmt.Errorf("one element must be specified in `objects` when `object_type` is `foreign_data_wrapper` or `foreign_server`")
 	}
 	if err := validatePrivileges(d); err != nil {
@@ -629,9 +628,9 @@ func getRolesToGrant(txn *sql.Tx, d *schema.ResourceData) ([]string, error) {
 	// we need to grant owner of the schema and owners of tables in the schema
 	// in order to change theirs permissions.
 	owners := []string{}
-	objectType := d.Get("object_type")
+	objectType := d.Get("object_type").(string)
 
-	if objectType == "database" || objectType == "foreign_data_wrapper" || objectType == "foreign_server" {
+	if sliceContainsStr([]string{"database", "foreign_data_wrapper", "foreign_server"}, objectType) {
 		//returning "postgres" as the de facto owner...
 		owners = append(owners, "postgres")
 	} else {
