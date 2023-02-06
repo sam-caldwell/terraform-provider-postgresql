@@ -167,7 +167,7 @@ func createTestTables(t *testing.T, dbSuffix string, tables []string, owner stri
 
 	for _, table := range tables {
 		if _, err := db.Exec(fmt.Sprintf("CREATE TABLE %s (val text)", table)); err != nil {
-			t.Fatalf("could not create test table in db %s: %v", dbName, err)
+			t.Fatalf("could not create test table (%s) in db %s: %v", table, dbName, err)
 		}
 		if owner != "" {
 			if _, err := db.Exec(fmt.Sprintf("ALTER TABLE %s OWNER TO %s", table, owner)); err != nil {
