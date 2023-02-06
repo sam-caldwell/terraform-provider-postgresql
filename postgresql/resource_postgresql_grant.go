@@ -632,27 +632,25 @@ func getRolesToGrant(txn *sql.Tx, d *schema.ResourceData) ([]string, error) {
 	objectType := d.Get("object_type")
 
 	if objectType == "database" || objectType == "foreign_data_wrapper" || objectType == "foreign_server" {
-		return owners, nil
-	}
-
-	schemaName := d.Get("schema").(string)
-
-	if objectType != "schema" {
-		var err error
-		owners, err = getTablesOwner(txn, schemaName)
+		//returning "postgres" as the de facto owner...
+		owners = append(owners, "postgres")
+	} else {
+		schemaName := d.Get("schema").(string)
+		if objectType != "schema" {
+			var err error
+			owners, err = getTablesOwner(txn, schemaName)
+			if err != nil {
+				return nil, err
+			}
+		}
+		schemaOwner, err := getSchemaOwner(txn, schemaName)
 		if err != nil {
 			return nil, err
 		}
+		if !sliceContainsStr(owners, schemaOwner) {
+			owners = append(owners, schemaOwner)
+		}
 	}
-
-	schemaOwner, err := getSchemaOwner(txn, schemaName)
-	if err != nil {
-		return nil, err
-	}
-	if !sliceContainsStr(owners, schemaOwner) {
-		owners = append(owners, schemaOwner)
-	}
-
 	return owners, nil
 }
 
