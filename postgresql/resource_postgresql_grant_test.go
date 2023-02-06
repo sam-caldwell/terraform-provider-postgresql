@@ -1175,9 +1175,8 @@ func testCheckForeignServerPrivileges(t *testing.T, usage bool) func(*terraform.
 		defer db.Close()
 
 		if err := testHasGrantForQuery(db, "CREATE FOREIGN TABLE test_tbl() SERVER test_srv", usage); err != nil {
-			return err
+			return fmt.Errorf("testCheckForeignServerPrivileges() [testhasGrantforQuery] failed: %v", err)
 		}
-
 		return nil
 	}
 }
