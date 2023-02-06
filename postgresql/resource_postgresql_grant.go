@@ -172,7 +172,7 @@ func resourcePostgreSQLGrantCreate(db *DBConnection, d *schema.ResourceData) err
 		}
 		return nil
 	}); err != nil {
-		return err
+		return fmt.Errorf("withRolesGranted:%v", err)
 	}
 
 	if err = txn.Commit(); err != nil {
