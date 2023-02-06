@@ -484,7 +484,7 @@ func setDBTablespace(db QueryAble, d *schema.ResourceData) error {
 	tbspName := d.Get(dbTablespaceAttr).(string)
 	dbName := d.Get(dbNameAttr).(string)
 	var sql string
-	if tbspName == "" || strings.ToUpper(tbspName) == "DEFAULT" {
+	if sliceContainsStr([]string{"", "DEFAULT"}, strings.ToUpper(tbspName)) {
 		sql = fmt.Sprintf("ALTER DATABASE %s RESET TABLESPACE", pq.QuoteIdentifier(dbName))
 	} else {
 		sql = fmt.Sprintf("ALTER DATABASE %s SET TABLESPACE %s", pq.QuoteIdentifier(dbName), pq.QuoteIdentifier(tbspName))
